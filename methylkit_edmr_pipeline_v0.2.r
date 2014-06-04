@@ -1,5 +1,4 @@
 options(echo=T)
-library(fields)
 args=commandArgs(trailingOnly=T)
 print(args)
 
