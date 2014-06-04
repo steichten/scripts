@@ -5,11 +5,14 @@ export PATH=$PATH:/home/steve/bin
 
 # MethylKit-edmr DMR calling from bismark sam files v0.2
 # SRE
-# Updated 3-6-2014
+# Updated 4-6-2014
 ###################
-#
-#
-#
+# This script has the following requirements:
+# the 'methylkit_edmr_pipeline_vX.X.r' file in the 'scripts' folder
+# the 'dmr_merge.r' file in the 'scripts' folder
+# a folder in the directory of execution called 'covfiles' that contains the bismark .cov fines that are created (see the wgbs_se_pipeline)
+# have bedops installed in your PATH
+# Have R installed with methylKit, eDMR, reshape2, and all dependencies
 ###################
 #
 #usage:
@@ -20,22 +23,23 @@ exit 1
 fi
 
 
-#gather input variables
+#gather input variables ########################
+
 sam_dir=$1; #the input fastq file
 dmr_context=$2 #context to pull cytosines for DMR analysis (CpG / CHG / CHH)
 min_cov=$3 #minimum coverage required to analyze the cytosine
 dow=$(date +"%F-%H-%m-%S") #timestamp
 
-#develop directory structure
+#develop directory structure########################
 cd $sam_dir
-#mkdir ${dow}_${dmr_context}_mincov_${min_cov}
-#mv *.sam ${dow}_${dmr_context}_mincov_${min_cov}
-cd ${dow}_${dmr_context}_mincov_${min_cov}
+
 mkdir 1_MethylKit_results
 mkdir 2_eDMR
 mkdir 3_eDMR_filtered
 mkdir 4_DMRmet_results
-#call R script for methylkit and eDMR work
+
+
+#call R script for methylkit and eDMR work########################
 Rscript /home/steve/scripts/methylkit_edmr_pipeline_v0.2.r $dmr_context $min_cov
 
 	
@@ -53,7 +57,8 @@ do
 	bedtools intersect -wa -wb -a merged.edmr.regions.bed -b "$file" | bedtools groupby -i stdin -g 1,2,3 -c 7,8,9 -o mean,sum,sum > "${file}.dmr"
 done
 
-############
-#R to merge all the .dmr files together into the final output
+###R to merge all the .dmr files together into the final output########################
 
 Rscript /home/steve/scripts/dmr_merge.r
+
+########################
