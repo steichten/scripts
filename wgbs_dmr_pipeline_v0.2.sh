@@ -32,7 +32,7 @@ dow=$(date +"%F-%H-%m-%S") #timestamp
 
 #develop directory structure########################
 cd $sam_dir
-
+mkdir ${dow}_dmrcalling
 mkdir 1_MethylKit_results
 mkdir 2_eDMR
 mkdir 3_eDMR_filtered
@@ -61,4 +61,10 @@ done
 
 Rscript /home/steve/scripts/dmr_merge.r
 
+
+##cleanup#######
+mv 1_MethylKit_results ${dow}_dmrcalling
+mv 2_eDMR ${dow}_dmrcalling
+mv 3_eDMR_filtered ${dow}_dmrcalling
+mv 4_DMRmet_results ${dow}_dmrcalling
 ########################
