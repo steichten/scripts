@@ -11,3 +11,12 @@ USAGE: wgbs_se_pipelinev0.2.sh <input fastq file> <rel. path to bismark genome f
 Example: wgbs_st_pipelinev0.2.sh Bd21.fastq ../brachy_genomes/Bd21Control Bd21
 
 This will create a folder structure in the directory you are in that contains the fastq files, fastqc reports, trimmed + filtered reads, secondary fastqc reports, bismark outputs, and windowed/coverage/bed files for visualization and analysis.
+
+
+
+How to setup:
+
+execute in a directory containg:
+your fastq file
+C_context_window_SREedits.pl
+
