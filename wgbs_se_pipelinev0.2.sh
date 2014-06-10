@@ -71,7 +71,7 @@ mkdir 4_bismark_alignment
 cd 4_bismark_alignment
 bismark -n 2 -l 20 ../../$genome_path ../2_trimgalore/${fq_file%%.fastq}_trimmed.fq 2>&1 | tee -a ../${fileID}_logs_${dow}.log
 #sam to bam
-samtools view -bS ${fq_file%%.fastq}_trimmed.fq_bismark.sam > ${fq_file%%.fastq}_trimmed.fq_bismark.bam 2>&1 | tee -a ../${fileID}_logs_${dow}.log
+samtools view -bSh ${fq_file%%.fastq}_trimmed.fq_bismark.sam > ${fq_file%%.fastq}_trimmed.fq_bismark.bam 2>&1 | tee -a ../${fileID}_logs_${dow}.log
 samtools sort ${fq_file%%.fastq}_trimmed.fq_bismark.bam ${fq_file%%.fastq}_trimmed.fq_bismark.sorted 2>&1 | tee -a ../${fileID}_logs_${dow}.log
 samtools index ${fq_file%%.fastq}_trimmed.fq_bismark.sorted.bam 2>&1 | tee -a ../${fileID}_logs_${dow}.log
 #sam sort for MethylKit
