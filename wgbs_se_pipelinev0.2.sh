@@ -58,7 +58,7 @@ cd ../
 #fastqc_again
 mkdir 3_trimmed_fastqc
 fastqc 2_trimgalore/${fq_file%%.fastq}_trimmed.fq 2>&1 | tee -a ${fileID}_logs_${dow}.log
-mv 2_trimgalore/${fq_file%%.fastq}_trimmed.fq_* 3_trimmed_fastqc
+mv 2_trimgalore/${fq_file%%.fastq}_trimmed_fastqc* 3_trimmed_fastqc
 flt_reads=$(wc -l < 2_trimgalore/${fq_file%%.fastq}_trimmed.fq)
 flt_reads=$(($flt_reads / 4))
 echo $flt_reads

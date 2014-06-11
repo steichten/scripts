@@ -63,6 +63,7 @@ Rscript /home/steve/scripts/dmr_merge.r
 
 
 ##cleanup#######
+cd ../
 mv 1_MethylKit_results ${dow}_dmrcalling
 mv 2_eDMR ${dow}_dmrcalling
 mv 3_eDMR_filtered ${dow}_dmrcalling
