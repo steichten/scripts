@@ -6,7 +6,7 @@
 #######################
 
 filename=$1
-#######################
+####################### bedtools to map per-cytosine levels to repeats
 closestBed -D "ref" -a ${filename}_CHG.bed -b ../brachy_annotations/Bd21Control_repeatmasker_v1_200bp.bed > ${filename}_CHG_repeat.bed
 closestBed -D "ref" -a ${filename}_CHH.bed -b ../brachy_annotations/Bd21Control_repeatmasker_v1_200bp.bed > ${filename}_CHH_repeat.bed
 closestBed -D "ref" -a ${filename}_CpG.bed -b ../brachy_annotations/Bd21Control_repeatmasker_v1_200bp.bed > ${filename}_CpG_repeat.bed
