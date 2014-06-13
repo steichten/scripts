@@ -6,7 +6,7 @@
 #######################
 
 filename=$1
-#######################
+####################### some bedtools stuff
 closestBed -D "ref" -a ${filename}_CHG.bed -b ../brachy_annotations/Bdistachyon.MIPS_1_2.predicted.genes.bed > ${filename}_CHG_gene.bed
 closestBed -D "ref" -a ${filename}_CHH.bed -b ../brachy_annotations/Bdistachyon.MIPS_1_2.predicted.genes.bed > ${filename}_CHH_gene.bed
 closestBed -D "ref" -a ${filename}_CpG.bed -b ../brachy_annotations/Bdistachyon.MIPS_1_2.predicted.genes.bed > ${filename}_CpG_gene.bed
