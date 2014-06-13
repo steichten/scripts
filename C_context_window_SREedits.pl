@@ -68,4 +68,4 @@ for my $C (sort {$a <=> $b} keys %dat) {
 }
 
 close OUT;
-close IN;
+close IN; #
