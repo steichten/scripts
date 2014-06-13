@@ -3,7 +3,7 @@ library(fields)
 args=commandArgs(trailingOnly=T)
 print(args)
 
-#read in files
+#read in files#
 cpg=read.delim(paste(args[1],'_CpG_repeat.1k.bed',sep=''),head=F)
 chg=read.delim(paste(args[1],'_CHG_repeat.1k.bed',sep=''),head=F)
 chh=read.delim(paste(args[1],'_CHH_repeat.1k.bed',sep=''),head=F)
