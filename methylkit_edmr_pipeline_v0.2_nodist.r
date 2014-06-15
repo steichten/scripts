@@ -58,7 +58,7 @@ for(i in 1:(length(aa)/2)){
 #plotCost(myMixmdl, main="cost function")
 
 # calculate all DMRs candidate
-	mydmr=edmr(myDiff, mode=1, ACF=TRUE,dist=300)
+	mydmr=edmr(myDiff, mode=1, ACF=TRUE)
 
 #go through and make a standard table to write out as a bed file@######
 	dmr.output <- data.frame(seqnames=seqnames(mydmr),

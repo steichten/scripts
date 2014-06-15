@@ -32,7 +32,7 @@ t3=dcast(tes, V1 + V2 + V3 ~ group,value.var='V6')
 colnames(t3)[4:ncol(t3)]=paste(names(t3[4:ncol(t3)]),"_unmet",sep='')
 
 #make a table of it all
-tout=cbind(t1,t2[,4:9],t3[,4:9])
+tout=cbind(t1,t2[,4:ncol(t2)],t3[,4:ncol(t3)])
 
 #write it out, and write out a version with only rows with data for all samples
 write.table(tout,'all_dmr_metvalues.txt',sep='\t',row.names=F,quote=F)

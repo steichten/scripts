@@ -43,7 +43,7 @@ cd ${fileID}_wgbspipeline_${dow}
 #fastqc
 mkdir 1_fastqc
 fastqc $fq_file 2>&1 | tee -a ${fileID}_logs_${dow}.log
-mv ${fq_file%%.fastq}_fastqc* 1_fastqc
+mv ${fq_file%%.fastq*}_fastqc* 1_fastqc #
 
 raw_reads=$(wc -l < $fq_file)
 raw_reads=$(($raw_reads / 4 ))
@@ -57,9 +57,9 @@ cd ../
 
 #fastqc_again
 mkdir 3_trimmed_fastqc
-fastqc 2_trimgalore/${fq_file%%.fastq}_trimmed.fq 2>&1 | tee -a ${fileID}_logs_${dow}.log
-mv 2_trimgalore/${fq_file%%.fastq}_trimmed_fastqc* 3_trimmed_fastqc
-flt_reads=$(wc -l < 2_trimgalore/${fq_file%%.fastq}_trimmed.fq)
+fastqc 2_trimgalore/${fq_file%%.fastq*}_trimmed.fq 2>&1 | tee -a ${fileID}_logs_${dow}.log
+mv 2_trimgalore/${fq_file%%.fastq*}_trimmed_fastqc* 3_trimmed_fastqc
+flt_reads=$(wc -l < 2_trimgalore/${fq_file%%.fastq*}_trimmed.fq)
 flt_reads=$(($flt_reads / 4))
 echo $flt_reads
 
@@ -71,13 +71,13 @@ mkdir 4_bismark_alignment
 cd 4_bismark_alignment
 bismark -n 2 -l 20 ../../$genome_path ../2_trimgalore/${fq_file%%.fastq}_trimmed.fq 2>&1 | tee -a ../${fileID}_logs_${dow}.log
 #sam to bam
-samtools view -bSh ${fq_file%%.fastq}_trimmed.fq_bismark.sam > ${fq_file%%.fastq}_trimmed.fq_bismark.bam 2>&1 | tee -a ../${fileID}_logs_${dow}.log
-samtools sort ${fq_file%%.fastq}_trimmed.fq_bismark.bam ${fq_file%%.fastq}_trimmed.fq_bismark.sorted 2>&1 | tee -a ../${fileID}_logs_${dow}.log
-samtools index ${fq_file%%.fastq}_trimmed.fq_bismark.sorted.bam 2>&1 | tee -a ../${fileID}_logs_${dow}.log
+samtools view -bSh ${fq_file%%.fastq*}_trimmed.fq_bismark.sam > ${fq_file%%.fastq*}_trimmed.fq_bismark.bam 2>&1 | tee -a ../${fileID}_logs_${dow}.log
+samtools sort ${fq_file%%.fastq*}_trimmed.fq_bismark.bam ${fq_file%%.fastq*}_trimmed.fq_bismark.sorted 2>&1 | tee -a ../${fileID}_logs_${dow}.log
+samtools index ${fq_file%%.fastq*}_trimmed.fq_bismark.sorted.bam 2>&1 | tee -a ../${fileID}_logs_${dow}.log
 #sam sort for MethylKit
-grep -v '^[[:space:]]*@' ${fq_file%%.fastq}_trimmed.fq_bismark.sam | sort -k3,3 -k4,4n > ${fq_file%%.fastq}_trimmed.fq_bismark.sorted.sam
+grep -v '^[[:space:]]*@' ${fq_file%%.fastq*}_trimmed.fq_bismark.sam | sort -k3,3 -k4,4n > ${fq_file%%.fastq*}_trimmed.fq_bismark.sorted.sam
 #methylation extraction
-bismark_methylation_extractor --comprehensive --report --buffer_size 8G -s ${fq_file%%.fastq}_trimmed.fq_bismark.sam 2>&1 | tee -a ../${fileID}_logs_${dow}.log
+bismark_methylation_extractor --comprehensive --report --buffer_size 8G -s ${fq_file%%.fastq*}_trimmed.fq_bismark.sam 2>&1 | tee -a ../${fileID}_logs_${dow}.log
 
 #bedgraph creation
 bismark2bedGraph --CX CpG* -o ${fileID}_CpG.bed 2>&1 | tee -a ../${fileID}_logs_${dow}.log
@@ -105,12 +105,12 @@ bismark_version=$(bismark --version | grep "Bismark Version:" | cut -d":" -f2 | 
 samtools_version=$(samtools 3>&1 1>&2 2>&3 | grep "Version:" | cut -d' ' -f2 | tr -d ' ')
 
 map_ef=$(grep 'Mapping efficiency:' 4_bismark_alignment/${fq_file%%.fastq}_trimmed.fq_bismark_SE_report.txt  | cut -d: -f2 | tr -d '\t' | cut -d'%' -f1)
-unique_aln=$(grep 'Number of alignments with a unique best hit from the different alignments:' 4_bismark_alignment/${fq_file%%.fastq}_trimmed.fq_bismark_SE_report.txt  | cut -d: -f2 | tr -d '\t')
-no_aln=$(grep 'Sequences with no alignments under any condition:' 4_bismark_alignment/${fq_file%%.fastq}_trimmed.fq_bismark_SE_report.txt  | cut -d: -f2 | tr -d '\t')
-multi_aln=$(grep 'Sequences did not map uniquely:' 4_bismark_alignment/${fq_file%%.fastq}_trimmed.fq_bismark_SE_report.txt  | cut -d: -f2 | tr -d '\t')
-cpg_per=$(grep 'C methylated in CpG context:' 4_bismark_alignment/${fq_file%%.fastq}_trimmed.fq_bismark_SE_report.txt  | cut -d: -f2 | tr -d '\t' | cut -d'%' -f1)
-chg_per=$(grep 'C methylated in CHG context:' 4_bismark_alignment/${fq_file%%.fastq}_trimmed.fq_bismark_SE_report.txt  | cut -d: -f2 | tr -d '\t' | cut -d'%' -f1)
-chh_per=$(grep 'C methylated in CHH context:' 4_bismark_alignment/${fq_file%%.fastq}_trimmed.fq_bismark_SE_report.txt  | cut -d: -f2 | tr -d '\t' | cut -d'%' -f1)
+unique_aln=$(grep 'Number of alignments with a unique best hit from the different alignments:' 4_bismark_alignment/${fq_file%%.fastq*}_trimmed.fq_bismark_SE_report.txt  | cut -d: -f2 | tr -d '\t')
+no_aln=$(grep 'Sequences with no alignments under any condition:' 4_bismark_alignment/${fq_file%%.fastq*}_trimmed.fq_bismark_SE_report.txt  | cut -d: -f2 | tr -d '\t')
+multi_aln=$(grep 'Sequences did not map uniquely:' 4_bismark_alignment/${fq_file%%.fastq*}_trimmed.fq_bismark_SE_report.txt  | cut -d: -f2 | tr -d '\t')
+cpg_per=$(grep 'C methylated in CpG context:' 4_bismark_alignment/${fq_file%%.fastq*}_trimmed.fq_bismark_SE_report.txt  | cut -d: -f2 | tr -d '\t' | cut -d'%' -f1)
+chg_per=$(grep 'C methylated in CHG context:' 4_bismark_alignment/${fq_file%%.fastq*}_trimmed.fq_bismark_SE_report.txt  | cut -d: -f2 | tr -d '\t' | cut -d'%' -f1)
+chh_per=$(grep 'C methylated in CHH context:' 4_bismark_alignment/${fq_file%%.fastq*}_trimmed.fq_bismark_SE_report.txt  | cut -d: -f2 | tr -d '\t' | cut -d'%' -f1)
 
 #add it to the full pipeline logfile
 printf "${dow}\t${fq_file}\t${fileID}\t${genome_path##../}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n"
