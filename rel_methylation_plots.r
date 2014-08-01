@@ -4,9 +4,9 @@ args=commandArgs(trailingOnly=T)
 print(args)
 
 #read in files#
-cpg=read.delim(paste(args[1],'_CpG_gene.1k.bed',sep=''),head=F)
-chg=read.delim(paste(args[1],'_CHG_gene.1k.bed',sep=''),head=F)
-chh=read.delim(paste(args[1],'_CHH_gene.1k.bed',sep=''),head=F)
+cpg=read.delim(paste(args[1],'_CpG_',args[2],'.1k.bed',sep=''),head=F)
+chg=read.delim(paste(args[1],'_CHG_',args[2],'.1k.bed',sep=''),head=F)
+chh=read.delim(paste(args[1],'_CHH_',args[2],'.1k.bed',sep=''),head=F)
 
 #remove scaffolds
 cpg.sub=subset(cpg,cpg$V1=='Bd1' | cpg$V1=='Bd2' | cpg$V1=='Bd3' | cpg$V1=='Bd4' | cpg$V1=='Bd5')
@@ -44,8 +44,8 @@ chh.bin=stats.bin(chh.sub$rel.dist,chh.sub$V4,N=200)
 p.chh.bin=cbind(matrix(chh.bin$centers,ncol=1),chh.bin$stats["mean",])
 
 #create plots
-pdf(paste(args[1],'_gene_methylation.pdf',sep=''),h=10,w=12)
-plot(x=NULL,y=NULL,xlim=c(-1000,2000),ylim=c(0,100),xlab='',ylab='% methylation',main=paste(args[1],' methylation over genes',sep=''))
+pdf(paste(args[1],'_',args[2],'_methylation.pdf',sep=''),h=10,w=12)
+plot(x=NULL,y=NULL,xlim=c(-1000,2000),ylim=c(0,100),xlab='',ylab='% methylation',main=paste(args[1],' methylation over ',args[2],sep=''))
 lines(p.cpg.bin,col=1,lwd=2)
 lines(p.chg.bin,col=2,lwd=2)
 lines(p.chh.bin,col=3,lwd=2)
@@ -54,3 +54,7 @@ abline(v=1000,lty=2)
 legend('topright',c(paste(args[1],' - CpG',sep=''),paste(args[1],' - CHG',sep=''),paste(args[1],' - CHH',sep='')),col=c(1,2,3),lwd=2,lty=1)
 dev.off()
 #####################################################################################
+
+out=cbind(p.cpg.bin,p.chg.bin[,2],p.chh.bin[,2])
+colnames(out)=c('pos',paste(args[1],'-CpG',sep=''),paste(args[1],'-CHG',sep=''),paste(args[1],'-CHH',sep=''))
+write.table(out,paste(args[1],'_',args[2],'values.txt',sep=''),sep='\t')
