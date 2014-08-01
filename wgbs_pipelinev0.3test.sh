@@ -18,12 +18,20 @@ echo "USAGE: wgbs_se_pipelinev0.2.sh <-pe or -se> <in fastq R1> <in fastq R2 (if
 exit 1
 fi
 
+######################################
+# SINGLE END
+######################################
+
+#confirm single-end
 if [ "$1" == "-se" ];then
+
+#require arguments
 if [ "$#" -ne 4 ]; then
 echo "Missing required arguments for single-end!"
 echo "USAGE: wgbs_se_pipelinev0.2.sh <-se> <in fastq R1> <path to bismark genome folder> <fileID for output files>"
 exit 1
 fi
+
 #gather input variables
 type=$1; #identifying paired end or single end mode
 fq_file=$2; #the input fastq file
@@ -77,6 +85,7 @@ mv $fq_file 0_rawfastq
 mkdir 4_bismark_alignment
 cd 4_bismark_alignment
 bismark -n 2 -l 20 ../../$genome_path ../2_trimgalore/${fq_file%%.fastq}_trimmed.fq 2>&1 | tee -a ../${fileID}_logs_${dow}.log
+
 #sam to bam
 samtools view -b -S -h ${fq_file%%.fastq*}_trimmed.fq_bismark.sam > ${fq_file%%.fastq*}_trimmed.fq_bismark.bam
 samtools sort ${fq_file%%.fastq*}_trimmed.fq_bismark.bam ${fq_file%%.fastq*}_trimmed.fq_bismark.sorted 2>&1 | tee -a ../${fileID}_logs_${dow}.log
@@ -123,9 +132,12 @@ chh_per=$(grep 'C methylated in CHH context:' 4_bismark_alignment/${fq_file%%.fa
 printf "${dow}\t${fq_file}\t${fileID}\t${genome_path##../}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n"
 printf "${dow}\t${fq_file}\t${fileID}\t${genome_path##../}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n" >> /home/steve/wgbs_se_pipeline_analysis_record.log
 
+echo "####################"
+echo "compressing all sam files..."
+echo "####################"
 #compress sam and unsorted bam files
 find -name "*.sam" | xargs pigz
-find -name "*bismark.bam" | xargs pigz
+find -name "*bismark.bam" | xargs rm
 
 fi
 
@@ -244,10 +256,12 @@ chh_per=$(grep 'C methylated in CHH context:' 4_bismark_alignment/${fq_file1%%.f
 printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n"
 printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n" >> /home/steve/wgbs_se_pipeline_analysis_record.log
 
-
+echo "####################"
+echo "compressing all sam files..."
+echo "####################"
 #compress sam and unsorted bam files
 find -name "*.sam" | xargs pigz
-find -name "*pe.bam" | xargs pigz
+find -name "*pe.bam" | xargs rm
 
 
 fi
