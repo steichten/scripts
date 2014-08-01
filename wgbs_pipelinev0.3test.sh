@@ -123,6 +123,10 @@ chh_per=$(grep 'C methylated in CHH context:' 4_bismark_alignment/${fq_file%%.fa
 printf "${dow}\t${fq_file}\t${fileID}\t${genome_path##../}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n"
 printf "${dow}\t${fq_file}\t${fileID}\t${genome_path##../}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n" >> /home/steve/wgbs_se_pipeline_analysis_record.log
 
+#compress sam and unsorted bam files
+find -name "*.sam" | xargs pigz
+find -name "*bismark.bam" | xargs pigz
+
 fi
 
 ######################################
@@ -239,6 +243,12 @@ chh_per=$(grep 'C methylated in CHH context:' 4_bismark_alignment/${fq_file1%%.f
 #add it to the full pipeline logfile
 printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n"
 printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n" >> /home/steve/wgbs_se_pipeline_analysis_record.log
+
+
+#compress sam and unsorted bam files
+find -name "*.sam" | xargs pigz
+find -name "*pe.bam" | xargs pigz
+
 
 fi
 
