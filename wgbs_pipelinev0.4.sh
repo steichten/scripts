@@ -289,7 +289,7 @@ fi
 
 #add it to the full pipeline logfile
 printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n"
-printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n" >> /home/steve/wgbs_se_pipeline_analysis_record.log
+printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n" >> /home/steve/wgbs_pipeline_analysis_record.log
 
 echo "####################"
 echo "compressing all sam files..."
@@ -400,14 +400,6 @@ zcat CpG*.txt.gz > CpG_context_${fileID}_merged.txt
 zcat CHG*.txt.gz > CHG_context_${fileID}_merged.txt
 zcat CHH*.txt.gz > CHH_context_${fileID}_merged.txt
 
-#bedgraph creation
-bismark2bedGraph --CX CpG_context_${fileID}_merged* -o ${fileID}_CpG.bed 2>&1 | tee -a ../${fileID}_logs_${dow}.log
-bismark2bedGraph --CX CHG_context_${fileID}_merged* -o ${fileID}_CHG.bed 2>&1 | tee -a ../${fileID}_logs_${dow}.log
-bismark2bedGraph --CX CHH_context_${fileID}_merged* -o ${fileID}_CHH.bed 2>&1 | tee -a ../${fileID}_logs_${dow}.log
-cd ../
-mkdir 5_output_files
-mv 4_bismark_alignment/*.bed* 5_output_files
-
 #100bp window creation
 
 perl ../C_context_window_SREedits.pl 4_bismark_alignment/CpG_context_${fileID}_merged* 100 0 ${fileID}_CpG 2>&1 | tee -a ${fileID}_logs_${dow}.log
@@ -416,6 +408,14 @@ perl ../C_context_window_SREedits.pl 4_bismark_alignment/CHG_context_${fileID}_m
 mv 4_bismark_alignment/CHG*.wig 5_output_files/${fileID}_CHG_100bp.wig
 perl ../C_context_window_SREedits.pl 4_bismark_alignment/CHH_context_${fileID}_merged* 100 0 ${fileID}_CHH 2>&1 | tee -a ${fileID}_logs_${dow}.log
 mv 4_bismark_alignment/CHH*.wig 5_output_files/${fileID}_CHH_100bp.wig
+
+#bedgraph creation
+bismark2bedGraph --CX CpG_context_${fileID}_merged* -o ${fileID}_CpG.bed 2>&1 | tee -a ../${fileID}_logs_${dow}.log
+bismark2bedGraph --CX CHG_context_${fileID}_merged* -o ${fileID}_CHG.bed 2>&1 | tee -a ../${fileID}_logs_${dow}.log
+bismark2bedGraph --CX CHH_context_${fileID}_merged* -o ${fileID}_CHH.bed 2>&1 | tee -a ../${fileID}_logs_${dow}.log
+cd ../
+mkdir 5_output_files
+mv 4_bismark_alignment/*.bed* 5_output_files
 
 echo "#####################"
 echo "providing pipeline metrics to wgbs pipeline logfile..."
@@ -488,16 +488,16 @@ printf "${dow}\t${fq_file2}\t${fileID}\t${genome_path##../}\t${type:1}_SE2pbat\t
 
 
 
-printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n" >> /home/steve/wgbs_se_pipeline_analysis_record.log
-printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef2}\t${unique_aln2}\t${no_aln2}\t${multi_aln2}\t${cpg_per2}\t${chg_per2}\t${chh_per2}\n" >> /home/steve/wgbs_se_pipeline_analysis_record.log
-printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef3}\t${unique_aln3}\t${no_aln3}\t${multi_aln3}\t${cpg_per3}\t${chg_per3}\t${chh_per3}\n" >> /home/steve/wgbs_se_pipeline_analysis_record.log
+printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}_PE\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n" >> /home/steve/wgbs_se_pipeline_analysis_record.log
+printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}_SE1\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef2}\t${unique_aln2}\t${no_aln2}\t${multi_aln2}\t${cpg_per2}\t${chg_per2}\t${chh_per2}\n" >> /home/steve/wgbs_se_pipeline_analysis_record.log
+printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}_SE2pbat\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef3}\t${unique_aln3}\t${no_aln3}\t${multi_aln3}\t${cpg_per3}\t${chg_per3}\t${chh_per3}\n" >> /home/steve/wgbs_se_pipeline_analysis_record.log
 
 echo "####################"
 echo "compressing all sam files..."
 echo "####################"
 #compress sam and unsorted bam files
 find -name "*.sam" | xargs pigz
-
+find -name "*_merged.txt" | xargs pigz
 fi
 
 
