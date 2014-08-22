@@ -82,7 +82,7 @@ write.table(out,paste('100bp_',context,'_',difference,'diff','_',coverage,'cov.t
 collapsed.dmrs=matrix(NA,ncol=5,nrow=max(dmr.id))
 for(i in 1:max(dmr.id)){
 	subs=subset(out,out$dmr.id==i)
-	chr=subs[1,1]
+	chr=as.character(subs[1,1])
 	starts=min(subs[,2])
 	stops=max(subs[,3])
 	dmrid=i
@@ -90,4 +90,4 @@ for(i in 1:max(dmr.id)){
 	collapsed.dmrs[i,]=c(chr,starts,stops,dmrid,size)
 	}
 	
-write.table(collapsed.dmrs,paste('100bp_',context,'_',difference,'diff','_',coverage,'collapsed.bed',sep=''),sep='\t',row.names=F,col.names=F)
+write.table(collapsed.dmrs,paste('100bp_',context,'_',difference,'diff','_',coverage,'collapsed.bed',sep=''),sep='\t',row.names=F,col.names=F,quote=F)

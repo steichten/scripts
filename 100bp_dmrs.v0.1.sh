@@ -2,6 +2,7 @@
 set -u
 
 export PATH=$PATH:/home/steve/bin
+export PATH=$PATH:/home/steve/bin/
 # 100bp_dmrs.sh
 # This script identifies 100bp windows (from bismark alignment pipeline) that display 
 # a difference (of choice) in methylation (context of choice) with a required coverage
@@ -32,7 +33,7 @@ Rscript /home/steve/scripts/100bp_wig_to_dmrs.r ${context} ${difference} ${cover
 #bedtools to intersect the bed file w. the coverage files
 for file in *${context}*.cov
 do
-	bedtools intersect -wa -wb -a 100bp_${context}_${difference}diff_${coverage}collapsed.bed -b "$file" | bedtools groupby -i stdin -g 4 -c 1,2,3,5,9,10,11 -o mean,mean,mean,mean,mean,sum,sum > "${file}.${context}_${difference}diff_${coverage}.dmr"
+	bedtools intersect -wa -wb -a 100bp_${context}_${difference}diff_${coverage}collapsed.bed -b "$file" | bedtools groupby -i stdin -g 4 -c 1,2,3,5,9,10,11 -o first,mean,mean,mean,mean,sum,sum > "${file}.${context}_${difference}diff_${coverage}.dmr"
 done
 
 
@@ -40,7 +41,6 @@ done
 mkdir 100bp_${context}_${difference}diff_${coverage}_out
 mv 100bp_${context}_${difference}diff_${coverage}* 100bp_${context}_${difference}diff_${coverage}_out/
 mv *.${context}_${difference}diff_${coverage}* 100bp_${context}_${difference}diff_${coverage}_out/
-
 cd 100bp_${context}_${difference}diff_${coverage}_out/
 
 #collapse them all into a summary table
