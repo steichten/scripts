@@ -11,6 +11,8 @@ export PATH=$PATH:/home/steve/bin/
 # collapsed into a single DMR. This file is then used to grab all individual met/unmet 
 # reads for each DMR (from .cov files in bismark pipeline) for all samples.
 
+
+#REQUIRES THAT sample names do not contain '_', as this will screw up the final steps
 ######################
 
 #execute from directory containing all the wig and cov files from all samples
