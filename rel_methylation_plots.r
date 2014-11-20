@@ -9,9 +9,9 @@ chg=read.delim(paste(args[1],'_CHG_',args[2],'.1k.bed',sep=''),head=F)
 chh=read.delim(paste(args[1],'_CHH_',args[2],'.1k.bed',sep=''),head=F)
 
 #remove scaffolds
-cpg.sub=subset(cpg,cpg$V1=='Bd1' | cpg$V1=='Bd2' | cpg$V1=='Bd3' | cpg$V1=='Bd4' | cpg$V1=='Bd5')
-chg.sub=subset(chg,chg$V1=='Bd1' | chg$V1=='Bd2' | chg$V1=='Bd3' | chg$V1=='Bd4' | chg$V1=='Bd5')
-chh.sub=subset(chh,chh$V1=='Bd1' | chh$V1=='Bd2' | chh$V1=='Bd3' | chh$V1=='Bd4' | chh$V1=='Bd5')
+cpg.sub=subset(cpg,cpg$V1!='Mt' & cpg$V1!='chrMt' & cpg$V1!='Pt' & cpg$V1!='chrPt')
+chg.sub=subset(chg,chg$V1!='Mt' & chg$V1!='chrMt' & chg$V1!='Pt' & chg$V1!='chrPt')
+chh.sub=subset(chh,chh$V1!='Mt' & chh$V1!='chrMt' & chh$V1!='Pt' & chh$V1!='chrPt')
 
 f1.end=as.numeric(args[3])
 f2.end=as.numeric(args[4])+1

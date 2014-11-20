@@ -22,13 +22,9 @@ outname=$4
 
 if [ "$1" == "-wig" ];then
 
-sed -i -e "1d" ${filename}_CpG_100bp.wig
-sed -i -e "1d" ${filename}_CHG_100bp.wig
-sed -i -e "1d" ${filename}_CHH_100bp.wig
-
-mv ${filename}_CpG_100bp.wig ${filename}_CpG_100bp.bed
-mv ${filename}_CHG_100bp.wig ${filename}_CHG_100bp.bed
-mv ${filename}_CHH_100bp.wig ${filename}_CHH_100bp.bed
+sed -e "1d" ${filename}_CpG_100bp.wig > ${filename}_CpG_100bp.bed
+sed -e "1d" ${filename}_CHG_100bp.wig > ${filename}_CHG_100bp.bed
+sed -e "1d" ${filename}_CHH_100bp.wig > ${filename}_CHH_100bp.bed
 
 fi
 
@@ -56,4 +52,4 @@ awk -F$'\t' '$NF<1000 && $NF>-1000' ${filename}_CpG_${outname}.bed > ${filename}
 
 echo "Performing R plots..."
 #initiate the R script to create the plots
-Rscript rel_methylation_plots.r ${filename} ${outname} ${l1} ${l2}
+Rscript /home/steve/scripts/rel_methylation_plots.r ${filename} ${outname} ${l1} ${l2}
