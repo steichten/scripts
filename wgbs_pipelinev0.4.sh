@@ -429,7 +429,7 @@ fi
 
 #add it to the full pipeline logfile
 printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n"
-printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n" >> /home/steve/wgbs_pipeline_analysis_record.log
+printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n" >> $HOME/wgbs_pipeline_analysis_record.log
 
 echo "####################"
 echo "compressing all sam files..."
@@ -629,9 +629,9 @@ printf "${dow}\t${fq_file2}\t${fileID}\t${genome_path##../}\t${type:1}_SE2pbat\t
 
 
 
-printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}_PE\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n" >> /home/steve/wgbs_se_pipeline_analysis_record.log
-printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}_SE1\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef2}\t${unique_aln2}\t${no_aln2}\t${multi_aln2}\t${cpg_per2}\t${chg_per2}\t${chh_per2}\n" >> /home/steve/wgbs_se_pipeline_analysis_record.log
-printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}_SE2pbat\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef3}\t${unique_aln3}\t${no_aln3}\t${multi_aln3}\t${cpg_per3}\t${chg_per3}\t${chh_per3}\n" >> /home/steve/wgbs_se_pipeline_analysis_record.log
+printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}_PE\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef}\t${unique_aln}\t${no_aln}\t${multi_aln}\t${cpg_per}\t${chg_per}\t${chh_per}\n" >> $HOME/wgbs_se_pipeline_analysis_record.log
+printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}_SE1\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef2}\t${unique_aln2}\t${no_aln2}\t${multi_aln2}\t${cpg_per2}\t${chg_per2}\t${chh_per2}\n" >> $HOME/wgbs_se_pipeline_analysis_record.log
+printf "${dow}\t${fq_file1}\t${fileID}\t${genome_path##../}\t${type:1}_SE2pbat\t${bismark_version}\t${samtools_version}\t${raw_reads}\t${flt_reads}\t${map_ef3}\t${unique_aln3}\t${no_aln3}\t${multi_aln3}\t${cpg_per3}\t${chg_per3}\t${chh_per3}\n" >> $HOME/wgbs_se_pipeline_analysis_record.log
 
 echo "####################"
 echo "compressing all sam files..."
