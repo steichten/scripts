@@ -29,14 +29,17 @@ echo "############################################################"
 echo
 echo "Usage: $0 [-c <CpG | CHG | CHH>] [-m <0|100>] [-d <integer>]" 1>&2
 echo
+echo "This script will create DMRs from 100bp window wig files"
+echo
+echo "REQUIREMENTS:"
+echo "Execute the script from a directory containing wig files and cov files"
+echo "R and the package 'fields'"
+echo "bedtools > v2.20"
+echo
 echo "EXAMPLE: $0 -c CpG -m 80 -d 10"
 echo "Look at CpG context, difference of 80% methylation with 10 reads minimum over window"
 echo
-echo "This script will create DMRs from 100bp window wig files"
-echo "Execute the script from a directory containing wig files and cov files"
-echo
-echo "This script utilizes R and the package 'fields'"
-echo
+
 echo "############################################################"
 exit 1
 }
