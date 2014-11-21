@@ -29,6 +29,9 @@ echo "############################################################"
 echo
 echo "Usage: $0 [-c <CpG | CHG | CHH>] [-m <0|100>] [-d <integer>]" 1>&2
 echo
+echo "EXAMPLE: $0 -c CpG -m 80 -d 10"
+echo "Look at CpG context, difference of 80% methylation with 10 reads minimum over window"
+echo
 echo "This script will create DMRs from 100bp window wig files"
 echo "Execute the script from a directory containing wig files and cov files"
 echo
