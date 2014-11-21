@@ -17,18 +17,64 @@ export PATH=$PATH:/home/steve/bin/
 
 #execute from directory containing all the wig and cov files from all samples
 #usage:
-if [ "$#" -ne 3 ]; then
-echo "USAGE: 100bp_dmrs.v0.1.sh <context> <diffmeth> <coverage_req>"
-echo "EXAMPLE: 100bp_dmrs.v0.1.sh CpG 80 10"
-echo "Look at CG context, difference of 80% methylation with 10 reads minimum over window"
+#if [ "$#" -ne 3 ]; then
+#echo "USAGE: 100bp_dmrs.v0.1.sh <context> <diffmeth> <coverage_req>"
+#echo "EXAMPLE: 100bp_dmrs.v0.1.sh CpG 80 10"
+#echo "Look at CG context, difference of 80% methylation with 10 reads minimum over window"
+#exit 1
+#fi
+
+usage() { 
+echo "############################################################"
+echo
+echo "Usage: $0 [-c <CpG | CHG | CHH>] [-m <0|100>] [-d <integer>]" 1>&2
+echo
+echo "This script will create DMRs from 100bp window wig files"
+echo "Execute the script from a directory containing wig files and cov files"
+echo
+echo "This script utilizes R and the package 'fields'"
+echo
+echo "############################################################"
 exit 1
+}
+
+flag1=0
+flag2=0
+flag3=0
+while getopts ":c:m:d:" opt; do
+	case $opt in
+     c)  context=$OPTARG; flag1=1;;
+     m)  difference=$OPTARG; flag2=1;;
+     d)  coverage=$OPTARG; flag3=1;;
+    \?)  usage;;
+     :)  echo "Option -$OPTARG requires an argument." >&2; usage;;	
+     *)  usage
+	esac
+done
+
+if [ $flag1 == 0 ]; then
+	echo "############################################################"
+	echo "context argument ( -c ) required!"
 fi
+if [ $flag2 == 0 ]; then
+	echo "############################################################"
+	echo "methylation difference argument ( -m ) required!"
+fi
+if [ $flag3 == 0 ]; then
+	echo "############################################################"
+	echo "coverage argument ( -d ) required!"
+fi
+
+if [ $((flag1+flag2+flag3)) != 3 ]; then
+	usage
+fi
+
+echo "c = ${context}"
+echo "m = ${difference}"
+echo "d = ${coverage}"
+
 ######################
-#define arguments
-context=$1
-difference=$2
-coverage=$3
-######################
+
 Rscript /home/steve/scripts/100bp_wig_to_dmrs.r ${context} ${difference} ${coverage}
 
 
