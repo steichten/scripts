@@ -72,10 +72,10 @@ for my $C (sort {$a <=> $b} keys %dat) {
 			#if there is methylated reads in the window
 			if ($C ne '' && $dat{$C}->{$W}->{'met'}) {
 					#print out everything. To get the number of sites looked at, I am taking the number of keys in each bin minus two. This is to remove the 'total' and 'met' keys
-							print OUT $C, "\t", ($W * $WINDOW), "\t", (($W + 1) * $WINDOW) - 1, "\t", $frac, "\t", $dat{$C}->{$W}->{'met'}, "\t", $dat{$C}->{$W}->{'total'}-$dat{$C}->{$W}->{'met'}, "\t", $dat{$C}->{$W}->{'total'}, scalar(keys $dat{$C}->{$W})-2, "\n";
+							print OUT $C, "\t", ($W * $WINDOW), "\t", (($W + 1) * $WINDOW) - 1, "\t", $frac, "\t", $dat{$C}->{$W}->{'met'}, "\t", $dat{$C}->{$W}->{'total'}-$dat{$C}->{$W}->{'met'}, "\t", $dat{$C}->{$W}->{'total'}, "\t", scalar(keys $dat{$C}->{$W})-2, "\n";
 			} else {if ($C ne ''){
 				#same as above, however how we only subtract one 'total' as there is no key for 'met' if there were not reads for it
-				print OUT $C, "\t",($W * $WINDOW), "\t", (($W + 1) * $WINDOW) - 1, "\t", $frac, "\t", 0, "\t", $dat{$C}->{$W}->{'total'}-$dat{$C}->{$W}->{'met'}, "\t", $dat{$C}->{$W}->{'total'}, scalar(keys $dat{$C}->{$W})-1, "\n";
+				print OUT $C, "\t",($W * $WINDOW), "\t", (($W + 1) * $WINDOW) - 1, "\t", $frac, "\t", 0, "\t", $dat{$C}->{$W}->{'total'}-$dat{$C}->{$W}->{'met'}, "\t", $dat{$C}->{$W}->{'total'}, "\t", scalar(keys $dat{$C}->{$W})-1, "\n";
 			}}
 		}
 	}
