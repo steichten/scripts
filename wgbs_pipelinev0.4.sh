@@ -100,11 +100,11 @@ mv 4_bismark_alignment/*.bed* 5_output_files
 
 #100bp window creation
 
-perl ../C_context_window_SREedits.pl 4_bismark_alignment/CpG* 100 0 ${fileID}_CpG 2>&1 | tee -a ${fileID}_logs_${dow}.log
+perl $HOME/scripts/C_context_window_SREedits.pl 4_bismark_alignment/CpG* 100 0 ${fileID}_CpG 2>&1 | tee -a ${fileID}_logs_${dow}.log
 mv 4_bismark_alignment/CpG*.wig 5_output_files/${fileID}_CpG_100bp.wig
-perl ../C_context_window_SREedits.pl 4_bismark_alignment/CHG* 100 0 ${fileID}_CHG 2>&1 | tee -a ${fileID}_logs_${dow}.log
+perl $HOME/scripts/C_context_window_SREedits.pl 4_bismark_alignment/CHG* 100 0 ${fileID}_CHG 2>&1 | tee -a ${fileID}_logs_${dow}.log
 mv 4_bismark_alignment/CHG*.wig 5_output_files/${fileID}_CHG_100bp.wig
-perl ../C_context_window_SREedits.pl 4_bismark_alignment/CHH* 100 0 ${fileID}_CHH 2>&1 | tee -a ${fileID}_logs_${dow}.log
+perl $HOME/scripts/C_context_window_SREedits.pl 4_bismark_alignment/CHH* 100 0 ${fileID}_CHH 2>&1 | tee -a ${fileID}_logs_${dow}.log
 mv 4_bismark_alignment/CHH*.wig 5_output_files/${fileID}_CHH_100bp.wig
 
 echo "#####################"
@@ -240,11 +240,11 @@ mv 4_bismark_alignment/*.bed* 5_output_files
 
 #100bp window creation
 
-perl ../C_context_window_SREedits.pl 4_bismark_alignment/CpG* 100 0 ${fileID}_CpG 2>&1 | tee -a ${fileID}_logs_${dow}.log
+perl $HOME/scripts/C_context_window_SREedits.pl 4_bismark_alignment/CpG* 100 0 ${fileID}_CpG 2>&1 | tee -a ${fileID}_logs_${dow}.log
 mv 4_bismark_alignment/CpG*.wig 5_output_files/${fileID}_CpG_100bp.wig
-perl ../C_context_window_SREedits.pl 4_bismark_alignment/CHG* 100 0 ${fileID}_CHG 2>&1 | tee -a ${fileID}_logs_${dow}.log
+perl $HOME/scripts/C_context_window_SREedits.pl 4_bismark_alignment/CHG* 100 0 ${fileID}_CHG 2>&1 | tee -a ${fileID}_logs_${dow}.log
 mv 4_bismark_alignment/CHG*.wig 5_output_files/${fileID}_CHG_100bp.wig
-perl ../C_context_window_SREedits.pl 4_bismark_alignment/CHH* 100 0 ${fileID}_CHH 2>&1 | tee -a ${fileID}_logs_${dow}.log
+perl $HOME/scripts/C_context_window_SREedits.pl 4_bismark_alignment/CHH* 100 0 ${fileID}_CHH 2>&1 | tee -a ${fileID}_logs_${dow}.log
 mv 4_bismark_alignment/CHH*.wig 5_output_files/${fileID}_CHH_100bp.wig
 
 echo "#####################"
@@ -381,11 +381,11 @@ mv 4_bismark_alignment/*.bed* 5_output_files
 
 #100bp window creation
 
-perl ../C_context_window_SREedits.pl 4_bismark_alignment/CpG* 100 0 ${fileID}_CpG 2>&1 | tee -a ${fileID}_logs_${dow}.log
+perl $HOME/scripts/C_context_window_SREedits.pl 4_bismark_alignment/CpG* 100 0 ${fileID}_CpG 2>&1 | tee -a ${fileID}_logs_${dow}.log
 mv 4_bismark_alignment/CpG*.wig 5_output_files/${fileID}_CpG_100bp.wig
-perl ../C_context_window_SREedits.pl 4_bismark_alignment/CHG* 100 0 ${fileID}_CHG 2>&1 | tee -a ${fileID}_logs_${dow}.log
+perl $HOME/scripts/C_context_window_SREedits.pl 4_bismark_alignment/CHG* 100 0 ${fileID}_CHG 2>&1 | tee -a ${fileID}_logs_${dow}.log
 mv 4_bismark_alignment/CHG*.wig 5_output_files/${fileID}_CHG_100bp.wig
-perl ../C_context_window_SREedits.pl 4_bismark_alignment/CHH* 100 0 ${fileID}_CHH 2>&1 | tee -a ${fileID}_logs_${dow}.log
+perl $HOME/scripts/C_context_window_SREedits.pl 4_bismark_alignment/CHH* 100 0 ${fileID}_CHH 2>&1 | tee -a ${fileID}_logs_${dow}.log
 mv 4_bismark_alignment/CHH*.wig 5_output_files/${fileID}_CHH_100bp.wig
 
 echo "#####################"
@@ -543,11 +543,11 @@ zcat CHH*.txt.gz > CHH_context_${fileID}_merged.txt
 #100bp window creation
 cd ../
 mkdir 5_output_files
-perl ../C_context_window_SREedits.pl 4_bismark_alignment/CpG_context_${fileID}_merged* 100 0 ${fileID}_CpG 2>&1 | tee -a ${fileID}_logs_${dow}.log
+perl $HOME/scripts/C_context_window_SREedits.pl 4_bismark_alignment/CpG* 100 0 ${fileID}_CpG 2>&1 | tee -a ${fileID}_logs_${dow}.log
 mv 4_bismark_alignment/CpG*.wig 5_output_files/${fileID}_CpG_100bp.wig
-perl ../C_context_window_SREedits.pl 4_bismark_alignment/CHG_context_${fileID}_merged* 100 0 ${fileID}_CHG 2>&1 | tee -a ${fileID}_logs_${dow}.log
+perl $HOME/scripts/C_context_window_SREedits.pl 4_bismark_alignment/CHG* 100 0 ${fileID}_CHG 2>&1 | tee -a ${fileID}_logs_${dow}.log
 mv 4_bismark_alignment/CHG*.wig 5_output_files/${fileID}_CHG_100bp.wig
-perl ../C_context_window_SREedits.pl 4_bismark_alignment/CHH_context_${fileID}_merged* 100 0 ${fileID}_CHH 2>&1 | tee -a ${fileID}_logs_${dow}.log
+perl $HOME/scripts/C_context_window_SREedits.pl 4_bismark_alignment/CHH* 100 0 ${fileID}_CHH 2>&1 | tee -a ${fileID}_logs_${dow}.log
 mv 4_bismark_alignment/CHH*.wig 5_output_files/${fileID}_CHH_100bp.wig
 
 cd 4_bismark_alignment

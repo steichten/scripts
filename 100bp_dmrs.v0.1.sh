@@ -27,7 +27,7 @@ export PATH=$PATH:/home/steve/bin/
 usage() { 
 echo "############################################################"
 echo
-echo "Usage: $0 [-c <CpG | CHG | CHH>] [-m <0|100>] [-d <integer>]" 1>&2
+echo "Usage: $0 [-c <CpG | CHG | CHH>] [-m <0|100>] [-d <integer>] [-s <integer>]" 1>&2
 echo
 echo "This script will create DMRs from 100bp window wig files"
 echo
@@ -47,11 +47,13 @@ exit 1
 flag1=0
 flag2=0
 flag3=0
-while getopts ":c:m:d:" opt; do
+flag4=0
+while getopts ":c:m:d:s:" opt; do
 	case $opt in
      c)  context=$OPTARG; flag1=1;;
      m)  difference=$OPTARG; flag2=1;;
      d)  coverage=$OPTARG; flag3=1;;
+     s)  sitecount=$OPTARG; flag4=1;;
     \?)  usage;;
      :)  echo "Option -$OPTARG requires an argument." >&2; usage;;	
      *)  usage
@@ -70,7 +72,10 @@ if [ $flag3 == 0 ]; then
 	echo "############################################################"
 	echo "coverage argument ( -d ) required!"
 fi
-
+if [ $flag4 == 0 ]; then
+	echo "############################################################"
+	echo "site count argument ( -s ) required!"
+fi
 if [ $((flag1+flag2+flag3)) != 3 ]; then
 	usage
 fi
@@ -78,10 +83,11 @@ fi
 echo "c = ${context}"
 echo "m = ${difference}"
 echo "d = ${coverage}"
+echo "s = ${sitecount}"
 
 ######################
 
-Rscript /home/steve/scripts/100bp_wig_to_dmrs.r ${context} ${difference} ${coverage}
+Rscript /home/steve/scripts/100bp_wig_to_dmrs.r ${context} ${difference} ${coverage} ${sitecount}
 
 
 #bedtools to intersect the bed file w. the coverage files
@@ -92,10 +98,10 @@ done
 
 
 #file structure cleanup
-mkdir 100bp_${context}_${difference}diff_${coverage}_out
-mv 100bp_${context}_${difference}diff_${coverage}* 100bp_${context}_${difference}diff_${coverage}_out/
-mv *.${context}_${difference}diff_${coverage}* 100bp_${context}_${difference}diff_${coverage}_out/
-cd 100bp_${context}_${difference}diff_${coverage}_out/
+mkdir 100bp_${context}_${difference}diff_${coverage}_${sitecount}_out
+mv 100bp_${context}_${difference}diff_${coverage}* 100bp_${context}_${difference}diff_${coverage}_${sitecount}_out/
+mv *.${context}_${difference}diff_${coverage}* 100bp_${context}_${difference}diff_${coverage}_${sitecount}_out/
+cd 100bp_${context}_${difference}diff_${coverage}_${sitecount}_out/
 
 #collapse them all into a summary table
 Rscript /home/steve/scripts/100bp_dmr_merge.r ${context} ${difference} ${coverage}

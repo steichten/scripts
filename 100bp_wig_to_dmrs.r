@@ -11,6 +11,7 @@ print(args)
 context=args[1]
 difference=as.numeric(args[2])
 coverage=as.numeric(args[3])
+sitecounts=as.numeric(args[4])
 
 print(args)
 #grab all the wig files, select those for your context
@@ -41,6 +42,9 @@ diff.windows=subset(merged,merged$test.diff==1)
 
 #select windows that meet the coverage threshold
 diff.windows.cov=subset(diff.windows,diff.windows$V7.x>=coverage & diff.windows$V7.y>=coverage)
+
+#select windows that also meet the sitecount threshold (looking at at least <s> CG/CHG/CHH sites with coverage in the window)
+diff.windows.cov=subset(diff.windows.cov,diff.windows$V8.y >=sitecounts & diff.windows.cov$V8.y >=sitecounts)
 
 if(nrow(diff.windows.cov)==0){ next}
 
