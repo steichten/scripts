@@ -44,7 +44,7 @@ diff.windows=subset(merged,merged$test.diff==1)
 diff.windows.cov=subset(diff.windows,diff.windows$V7.x>=coverage & diff.windows$V7.y>=coverage)
 
 #select windows that also meet the sitecount threshold (looking at at least <s> CG/CHG/CHH sites with coverage in the window)
-diff.windows.cov=subset(diff.windows.cov,diff.windows$V8.y >=sitecounts & diff.windows.cov$V8.y >=sitecounts)
+diff.windows.cov=subset(diff.windows.cov,diff.windows.cov$V8.x >=sitecounts & diff.windows.cov$V8.y >=sitecounts)
 
 if(nrow(diff.windows.cov)==0){ next}
 
