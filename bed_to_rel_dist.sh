@@ -28,6 +28,10 @@ sed -e "1d" ${filename}_CHH_100bp.wig > ${filename}_CHH_100bp.bed
 
 fi
 
+sort -k1,1 -k2,2n ${filename}_CpG_100bp.bed -o ${filename}_CpG_100bp.bed
+sort -k1,1 -k2,2n ${filename}_CHG_100bp.bed -o ${filename}_CHG_100bp.bed
+sort -k1,1 -k2,2n ${filename}_CHH_100bp.bed -o ${filename}_CHH_100bp.bed
+
 #get total number of columns for both input files
 l1="$(cat ${filename}_CpG_100bp.bed | awk 'BEGIN{FS="\t"};{print NF}' | head -n 1)"
 l2="$(cat ${bedpath} | awk 'BEGIN{FS="\t"};{print NF}' | head -n 1)"

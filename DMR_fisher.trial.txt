@@ -1,0 +1,18 @@
+
+
+
+stat.out=matrix(NA,ncol=3,nrow=nrow(data))
+colnames(stat.out)=c('1vs2','1vs3','2vs3')
+for(i in 1:nrow(data)){
+	test.temp=matrix(c(data[i,11],data[i,16],data[i,12],data[i,17]),nrow=2)
+	stat.out[i,1]=fisher.test(test.temp)$p.value
+
+	test.temp=matrix(c(data[i,11],data[i,16],data[i,13],data[i,18]),nrow=2)
+	stat.out[i,2]=fisher.test(test.temp)$p.value
+	
+	test.temp=matrix(c(data[i,12],data[i,17],data[i,13],data[i,18]),nrow=2)
+	stat.out[i,3]=fisher.test(test.temp)$p.value
+
+	}
+	
+	
