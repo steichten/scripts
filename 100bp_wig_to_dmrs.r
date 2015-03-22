@@ -27,8 +27,8 @@ out=NULL
 #loop through all pairwise combinations#########################
 for(i in 1:(length(aa)/2)){
 
-file1=read.delim(aa[bb[1,i]],head=F,skip=1)
-file2=read.delim(aa[bb[2,i]],head=F,skip=1)
+file1=read.delim(aa[1,i],head=F,skip=1)
+file2=read.delim(aa[2,i],head=F,skip=1)
 
 #take windows where there is coverage for both samples
 merged=merge(file1,file2,by=c('V1','V2','V3'))
@@ -57,7 +57,7 @@ for(q in 2:nrow(diff.windows.cov)){
 group.id=matrix(group.id,ncol=1)
 diff.windows.cov=cbind(diff.windows.cov,group.id)
 
-calling=matrix(rep(paste(aa[bb[1,i]],"vs",aa[bb[2,i]],sep=''),nrow(diff.windows.cov)),ncol=1)
+calling=matrix(rep(paste(aa[1,i],"vs",aa[2,i],sep=''),nrow(diff.windows.cov)),ncol=1)
 
 diff.windows.cov=cbind(diff.windows.cov,calling)
 
