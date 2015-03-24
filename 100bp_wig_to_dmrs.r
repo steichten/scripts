@@ -72,14 +72,16 @@ out=out[with(out,order(out[,1],out[,2])),]
 
 dmr.id=c(1,rep(NA,nrow(out)-1))
 
+
+#UPDATED
 for(q in 2:nrow(out)){
-	dmr.id[q]=ifelse(out[q,2] - out[q-1,2]<=100 & out[q,2] - out[q-1,2] >= 0 ,dmr.id[q-1],dmr.id[q-1]+1)
+	dmr.id[q]=ifelse(out[q,2] - out[q-1,2]<=100 & out[q,2] - out[q-1,2] >= 0 & ((out[q,4] + out[q-1,4] <= 200 - 2*difference) | (out[q,4] + out[q-1,4] >= 2*difference)),dmr.id[q-1],dmr.id[q-1]+1)
 	}
 dmr.id=matrix(dmr.id,ncol=1)
 
 out=cbind(out,dmr.id)
 
-write.table(out,paste('100bp_',context,'_',difference,'diff','_',coverage,'cov.txt',sep=''),sep='\t',row.names=F)
+write.table(out,paste('100bp_',context,'_',difference,'diff','_',coverage,'cov2.txt',sep=''),sep='\t',row.names=F)
 
 #collapse that shiz
 
@@ -94,4 +96,4 @@ for(i in 1:max(dmr.id)){
 	collapsed.dmrs[i,]=c(chr,starts,stops,dmrid,size)
 	}
 	
-write.table(collapsed.dmrs,paste('100bp_',context,'_',difference,'diff','_',coverage,'collapsed.bed',sep=''),sep='\t',row.names=F,col.names=F,quote=F)
+write.table(collapsed.dmrs,paste('100bp_',context,'_',difference,'diff','_',coverage,'collapsed2.bed',sep=''),sep='\t',row.names=F,col.names=F,quote=F)
