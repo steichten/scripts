@@ -81,7 +81,7 @@ dmr.id=matrix(dmr.id,ncol=1)
 
 out=cbind(out,dmr.id)
 
-write.table(out,paste('100bp_',context,'_',difference,'diff','_',coverage,'cov2.txt',sep=''),sep='\t',row.names=F)
+write.table(out,paste('100bp_',context,'_',difference,'diff','_',coverage,'cov.txt',sep=''),sep='\t',row.names=F)
 
 #collapse that shiz
 
@@ -96,4 +96,4 @@ for(i in 1:max(dmr.id)){
 	collapsed.dmrs[i,]=c(chr,starts,stops,dmrid,size)
 	}
 	
-write.table(collapsed.dmrs,paste('100bp_',context,'_',difference,'diff','_',coverage,'collapsed2.bed',sep=''),sep='\t',row.names=F,col.names=F,quote=F)
+write.table(collapsed.dmrs,paste('100bp_',context,'_',difference,'diff','_',coverage,'collapsed.bed',sep=''),sep='\t',row.names=F,col.names=F,quote=F)
