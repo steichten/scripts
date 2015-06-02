@@ -1,0 +1,75 @@
+# code to analyze matrix images from 3d platform spin thing
+#SRE 24-4-2014
+###########################################
+
+
+#prereqs##
+
+#1. A folder containing all the images turned into text matricies (tab delim)
+
+library(ggplot2)
+library(reshape2)
+library(RcColorBrewer)
+sample.id='MygreatBrachy' #CHANGE AS NEEDED
+folder.path='Desktop/imagejbinarycalls/' #CHANGE AS NEEDED and relative to your current R working directory!
+
+#get a list in R of all the file names
+file.list=dir(folder.path)
+
+
+#setup your blank matrix that you will add values to
+output=matrix(0,ncol=1920,nrow=1280)
+for(i in 1:length(file.list)) {
+
+	temp=read.delim(paste(folder.path,file.list[i],sep=''),head=F)
+	#add your new image values to the output
+	output=output + temp
+	}
+
+#convert the '255 really is 1' issue
+output=output/255
+output=as.matrix(output)
+names(output)=NULL
+#write out collapsed file (if neccesary)
+
+write.table(output,paste(folder.path,"_",sample.id,'_','combined.txt',sep=''),row.names=F,quote=F)
+
+
+
+#make some plots now
+
+#####
+
+#reverse <- nrow(output) : 1
+#output <- output[reverse,]
+scatter = ggplot(melt(output), aes(Var2,Var1, fill=value)) + geom_raster() + scale_fill_gradient2(low="red", mid="grey",high="red") + element_blank()
+
+col.data=as.data.frame(cbind(matrix(1:ncol(output),ncol=1),matrix(colMeans(output),ncol=1)))
+colnames(col.data)=c('x','value')
+
+row.data=as.data.frame(cbind(matrix(1:nrow(output),ncol=1),matrix(rowMeans(output),ncol=1)))
+colnames(row.data)=c('y','value')
+
+#placeholder plot - prints nothing at all
+empty <- ggplot()+geom_point(aes(1,1), colour="white") +
+     theme(                              
+       plot.background = element_blank(), 
+       panel.grid.major = element_blank(), 
+       panel.grid.minor = element_blank(), 
+       panel.border = element_blank(), 
+       panel.background = element_blank(),
+       axis.title.x = element_blank(),
+       axis.title.y = element_blank(),
+       axis.text.x = element_blank(),
+       axis.text.y = element_blank(),
+       axis.ticks = element_blank()
+     )
+     
+#marginal density of x - plot on top
+plot_top = ggplot(col.data, aes(x,value)) + geom_point() + theme_bw()
+
+#marginal density of y - plot on the right
+plot_right = ggplot(row.data, aes(y,value)) + geom_point() + coord_flip() + theme_bw()
+
+#arrange the plots together, with appropriate height and width for each row and column
+grid.arrange(plot_top, empty, scatter, plot_right, ncol=2, nrow=2, widths=c(4, 1), heights=c(1, 4))
