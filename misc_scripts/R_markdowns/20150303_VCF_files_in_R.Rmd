@@ -1,0 +1,112 @@
+---
+title: "Analysing vcf SNP files in R with _VariantAnnotation_"
+author: "SRE"
+date: "3 March 2015"
+output: html_document
+---
+#Background
+VCF files are a common, useful, and detailed file format for holding genotype variant information ('Variant Call Format'). It has largely been used in the human genomics space to collect and store variant information from SNPs (most common) to indels and larget structural rearrangements.
+
+A useful source of information in regards to the file format itself can be found here:
+
+http://www.1000genomes.org/wiki/analysis/variant%20call%20format/vcf-variant-call-format-version-41
+
+For now, this will walkthrough some of the methods in which we can load up vcf files into R for quick parsing of their information.
+
+The best way to parse vcf files in R is to use the _VariantAnnotation_ package from bioconductor:
+
+http://www.bioconductor.org/packages/release/bioc/html/VariantAnnotation.html
+
+We can get this all setup in R like so
+
+```{r}
+#source("http://bioconductor.org/biocLite.R")
+#biocLite("VariantAnnotation")
+library(VariantAnnotation)
+```
+
+Once installed, we have the ability to quickly parse vcf files to determine what information they hold, how many samples, what types of information / formatting / data they contain using the _scanVcfHeader_ command:
+```{r}
+scanVcfHeader("Bdis_7geno_test100k.vcf.gz")
+
+```
+This quickly goes through the metadata of the vcf file and provides detailed information in regards to the number of samples, information for each variant (info), and information for each genotype call (geno).
+
+In many cases, you may be working with a very large file in which you may want to directly subset the data you pull into R. Before we load any of the data into R, we can specify the exact information we are interested in using _ScanVcfParam_. For instance, we could subset our VCF to only load in the direct genotype calls ("GT" based on the format information) as well as specific genotypes and ranges of data:
+```{r}
+param = ScanVcfParam(geno="GT",samples=c('Bd1-1', 'Bd3-1_r','Bd21-3_r'),which=GRanges("Bd1", IRanges(1, 50000)))
+```
+
+Note, you can basically setup the loading parameters based on anything in the vcf file. This is just a simple examples. We can then load in our vcf data based on the parameters requested:
+```{r}
+vcf=readVcf("Bdis_7geno_test100k.vcf.gz","Bd21Control",param=param)
+```
+
+the _readVcf_ function wants your file of interest as well as the genome you are working with. You can also load the entire vcf file by just ommitting the param argument in _readVcf_. 
+
+Once loaded in, we can see what is now available to us. This package works by importing vcf data into a package-specific data frame that provides all the information from the
+
+* Row information for each variant that is common to all genotype calls such as chromosome, start, stop, ID - _rowData()_
+* Information in regards to metadata and methods used for each variant - _header()_
+* Genotype information that is recorded uniquly to each variant - _geno()_
+
+```{r}
+vcf
+```
+
+#Header Information
+We can see what is in the header of this file:
+```{r}
+header(vcf)
+```
+
+We can look further into each section as so:
+```{r}
+samples(header(vcf))
+```
+
+#RowData information
+The _rowData_ information can also be quickly looked at:
+```{r}
+head(rowData(vcf))
+```
+
+We can pull out individual values similar to the header:
+```{r}
+ref(vcf)[1:5]
+
+qual(vcf)[1:5]
+```
+
+Each of these values may have their own dataframe types (note that ```ref(vcf)``` returned a "DNAStringSet" while ```qual(vcf)``` returned a simple numerical vector).
+
+As we parse it apart, it is easy enough to start looking at things:
+```{r}
+hist(qual(vcf),breaks=50)
+```
+
+#Genotype information
+For the genotype data, rows are variants and columns are samples. Every piece of genotype data (as described by the format fields) is listed in a matrix:
+
+```{r}
+geno(vcf)
+
+sapply(geno(vcf),class)
+```
+
+We can always go look to see the description of which variables mean what in the header:
+```{r}
+geno(header(vcf))
+```
+
+So here, we could start pulling out whatever genotype information we want into a matrix:
+```{r}
+genotypes=geno(vcf)$GT
+head(genotypes)
+```
+
+#Information information
+Info data is unique to each variant, but the same across all samples:
+```{r}
+info(vcf)[1:4,1:5]
+```
