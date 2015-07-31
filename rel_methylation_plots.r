@@ -15,6 +15,10 @@ chh.sub=subset(chh,chh$V1!='Mt' & chh$V1!='chrMt' & chh$V1!='Pt' & chh$V1!='chrP
 
 f1.end=as.numeric(args[3])
 f2.end=as.numeric(args[4])+1
+cpg.sub=subset(cpg.sub,cpg.sub[,f1.end + f2.end]!= -1)
+chg.sub=subset(chg.sub,chg.sub[,f1.end + f2.end]!= -1)
+chh.sub=subset(chh.sub,chh.sub[,f1.end + f2.end]!= -1)
+
 #CpG
 real.dist=matrix(ifelse(cpg.sub[,f1.end + 6]=='+',-1*cpg.sub[,f1.end+f2.end],cpg.sub[,f1.end + f2.end]),ncol=1)
 cpg.sub=cbind(cpg.sub,real.dist)
