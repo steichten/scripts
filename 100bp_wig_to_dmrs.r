@@ -65,7 +65,7 @@ out=rbind(out,diff.windows.cov)
 
 }
 
-colnames(out)=c('chr','start','stop','prop1','met1','unmet1','total1','prop2','met2','unmet2','total2','difference.pass','group.id','contrast')
+colnames(out)=c('chr','start','stop','prop1','met1','unmet1','total1','site1','prop2','met2','unmet2','total2','site2','difference.pass','group.id','contrast')
 
 #sort out
 out=out[with(out,order(out[,1],out[,2])),]
