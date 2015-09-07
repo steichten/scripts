@@ -1,0 +1,60 @@
+
+
+```{r,echo=F,message=F,warning=F}
+library(xts)
+library(ggplot2)
+library(grid)
+library(extrafont)
+library(lubridate)
+```
+
+```{r,fig.width=10,fig.height=4,echo=F}
+theme_sre=theme(text=element_text(family="Avenir Next Condensed"),
+        axis.title=element_text(size=20),
+        legend.position="bottom",
+        legend.key=element_rect(fill=NA),
+        legend.text.align=1,
+        legend.title=element_text(size=15),
+        legend.box='horizontal',
+        plot.background=element_rect(fill=NA),
+        panel.grid.major.y=element_line(size=1,linetype=1,color="grey"),
+        panel.grid.major.x=element_line(size=1,linetype=1,color="grey"),
+        panel.grid.minor.x=element_line(size=0),
+        panel.grid.minor.y=element_line(size=0),
+        panel.background=element_rect(fill=NA),
+        axis.ticks=element_line(color='black',size=1),
+        axis.line.x=element_line(color='red',size=10,linetype=1),
+        axis.text=element_text(size=15,color='black'),
+        axis.title.x=element_text(hjust=0),
+        axis.title.y=element_text(hjust=0,vjust=1),
+        axis.ticks.length=unit(1,"cm")
+        )
+
+log_list=dir(pattern='*.chamberlog$')
+
+#define borders
+start=floor_date(align.time(Sys.time()-319680,n=60*60),"day")
+end=ceiling_date(align.time(Sys.time(),n=60*60),"day")
+
+log.data.all=NULL
+
+for(i in 1:length(log_list)){
+  temp=read.csv(log_list[i],head=T)
+
+#time format this stuff
+t2=paste(temp[,1],temp[,2],sep=':')
+t3=as.POSIXct(t2,format="%Y/%m/%d:%H:%M:%S")
+temp[,1]=t3
+
+print(ggplot(temp,aes(x=temp[,1],y=temp[,3])) + scale_x_datetime(limits=c(start,end)) + geom_point() + theme_sre + xlab('Date') + ylab('Temp') + geom_point(aes(x=temp[,1],y=temp[,4]),colour='red',size=1) + ggtitle(paste(log_list[i],"Temp",sep=' ')))
+print(ggplot(temp,aes(x=temp[,1],y=temp[,5])) + scale_x_datetime(limits=c(start,end)) + geom_point(color='#0033CC') + theme_sre + xlab('Date') + ylab('RH') + geom_point(aes(x=temp[,1],y=temp[,6]),colour='red',size=1) + ggtitle(paste(log_list[i],"Humidity",sep=' ')))
+print(ggplot(temp,aes(x=temp[,1],y=temp[,7])) + scale_x_datetime(limits=c(start,end)) + geom_point(color='#009900') + theme_sre + xlab('Date') + ylab('PAR') + ggtitle(paste(log_list[i],"PAR",sep=' ')))
+}
+```
+
+---
+title: "Conviron Chamber Status"
+date: "`r Sys.time()`"
+author: "Report automatically generated for `r length(log_list)` Climatron chambers"
+output: html_document
+---
