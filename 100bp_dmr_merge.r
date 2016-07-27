@@ -16,15 +16,14 @@ filelist=dir(pattern="*.dmr$")
 
 #read them in and add a row with the samplename. Rbind them all together
 tes=read.delim(filelist[1],head=F)
-group=rep(strsplit(filelist[1],"_")[[1]][1],nrow(tes))
+group=rep(strsplit(filelist[1],"\\.")[[1]][1],nrow(tes))
 tes=cbind(tes,group)
 for(i in 2:length(filelist)){
 	ss=read.delim(filelist[i],head=F)
-	group=rep(strsplit(filelist[i],"_")[[1]][1],nrow(ss))
+	group=rep(strsplit(filelist[i],"\\.")[[1]][1],nrow(ss))
     ss=cbind(ss,group)
 	tes=rbind(tes,ss)
 	}
-
 #use dcast (reshape2) to get it into a summary table	
 t1=dcast(tes, V1 + V2 + V3 + V4 + V5 ~ group,value.var='V6')
 colnames(t1)[6:ncol(t1)]=paste(names(t1[6:ncol(t1)]),"_prop",sep='')
