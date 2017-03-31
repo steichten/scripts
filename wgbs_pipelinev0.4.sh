@@ -223,7 +223,7 @@ bismark -n 2 -l 20 ../../$genome_path ../2_trimgalore/${fq_file%%.fastq*}_trimme
 
 #sam to bam
 samtools view -b -S -h ${fq_file%%.fastq*}_trimmed*.sam > ${fq_file%%.fastq*}_trimmed.fq_bismark.bam
-samtools sort ${fq_file%%.fastq*}_trimmed.fq_bismark.bam ${fq_file%%.fastq*}_trimmed.fq_bismark.sorted 2>&1 | tee -a ../${fileID}_logs_${dow}.log
+samtools sort ${fq_file%%.fastq*}_trimmed.fq_bismark.bam -o ${fq_file%%.fastq*}_trimmed.fq_bismark.sorted.bam 2>&1 | tee -a ../${fileID}_logs_${dow}.log
 samtools index ${fq_file%%.fastq*}_trimmed.fq_bismark.sorted.bam 2>&1 | tee -a ../${fileID}_logs_${dow}.log
 #sam sort for MethylKit
 #grep -v '^[[:space:]]*@' ${fq_file%%.fastq*}_trimmed*.sam | sort -k3,3 -k4,4n > ${fq_file%%.fastq*}_trimmed.fq_bismark.sorted.sam
@@ -293,7 +293,7 @@ echo "####################"
 echo "compressing all sam files..."
 echo "####################"
 #compress sam and unsorted bam files
-find -name "*.sam" | xargs pigz
+find -name "*.sam" | xargs rm
 find -name "*bismark.bam" | xargs rm
 
 fi
